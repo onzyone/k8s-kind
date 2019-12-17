@@ -74,11 +74,11 @@ This is just a quick way to setup kind and a local repo
       tag: 0.86.1
       pullPolicy: IfNotPresent
     ```
-1. As this is a local k8s install, is no way of requesting a loadbalancer from the cloud vender. In comes metallb
+1. As this is a local k8s install, there is no way of requesting a loadbalancer from the cloud vender. In comes metallb
     ```bash
     $ helm upgrade --install --wait kind-test-metallb -f k8s/metallb/values-local.yaml stable/metallb
     ```
-1. Apply the melallb configMap (ensure that you docker subnet is default `"172.17.0.0/16"`. Run this:  `docker network inspect bridge | jq '.[].IPAM'`). If it is different you have to update the `km-config.yaml` file
+1. Apply the melallb configMap (check your docker subnet by running this `docker network inspect bridge | jq '.[].IPAM'`, if the value is `"172.17.0.0/16"` then you can just apply the configs as is. If it is different you have to update the `km-config.yaml` file before applying it.
     ```
     $ kubectl apply -f k8s/metallb/km-config.yaml
     ```
