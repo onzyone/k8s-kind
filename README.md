@@ -25,8 +25,8 @@ This is just a quick way to setup kind and a local repo
 # Usage
 ## Start
 1. In the bin dir of this repo you will find the start / stop script
-1. `./kind-local-setup.sh start`
     ```bash
+    $ bin/kind-local-setup.sh start
     Creating cluster "kind" ...
     ✓ Ensuring node image (kindest/node:v1.16.3) 🖼
     ✓ Preparing nodes 📦
@@ -45,19 +45,23 @@ This is just a quick way to setup kind and a local repo
 1. Quick test (if this pod doesn't deploy, please have a look at the troubleshooting section)
     ```bash
     $ kubectl create deployment hello-server --image=registry:5000/hello-app:1.0
-
-    $ k get po -w
+    $ kubectl get po -w
     NAME                            READY   STATUS    RESTARTS   AGE
     hello-server-7f9c5b8577-2n7x2   1/1     Running   0          10s
     ```
-
+## Get images
+1. ensure that your images are in the local reg:
+    ```bash
+    $ bin/kind-local-setup.sh getimages
+    ```
+    
 ## Deploy with Helm
 1. If this is the first time that you have used helm, please have a look at the quick start below. TL/DR `helm repo add stable https://kubernetes-charts.storage.googleapis.com/`
 1. In the k8s folder you will find some helm chart values-local.yaml files ... these have been modified to use the new local repo that you just created. (note: inside the cluster the localhost repo on your laptop is pointing to registry)
     ```bash
     $ ambassador pwd
     <root>/kind/k8s/ambassador
-    ➜  ambassador ls -lrat
+    $ ambassador ls -lrat
     total 12
     drwxrwxrwx 1 vagrant vagrant     0 Dec 13 15:50 ..
     drwxrwxrwx 1 vagrant vagrant     0 Dec 13 15:50 .
@@ -72,15 +76,15 @@ This is just a quick way to setup kind and a local repo
     ```
 1. As this is a local k8s install, is no way of requesting a loadbalancer from the cloud vender. In comes metallb
     ```bash
-    helm upgrade --install --wait kind-test-metallb -f k8s/metallb/values-local.yaml stable/metallb
+    $ helm upgrade --install --wait kind-test-metallb -f k8s/metallb/values-local.yaml stable/metallb
     ```
 1. Apply the melallb configMap (ensure that you docker subnet is default `"172.17.0.0/16"`. Run this:  `docker network inspect bridge | jq '.[].IPAM'`). If it is different you have to update the `km-config.yaml` file
     ```
-    kubectl apply -f k8s/metallb/km-config.yaml
+    $ kubectl apply -f k8s/metallb/km-config.yaml
     ```
 1. Install ambassador with helm
     ```bash
-    helm upgrade --install --wait kind-test-ambassador -f k8s/ambassador/values-local.yaml stable/ambassador
+    $ helm upgrade --install --wait kind-test-ambassador -f k8s/ambassador/values-local.yaml stable/ambassador
     Release "kind-test-ambassador" does not exist. Installing it now.
     NAME: kind-test-ambassador
     LAST DEPLOYED: Mon Dec 16 17:26:16 2019
@@ -112,7 +116,7 @@ This is just a quick way to setup kind and a local repo
     ```
 1.  Get the external IP for ambassador
     ```bash
-    kubectl get service
+    $ kubectl get service
     NAME                         TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)                      AGE
     kind-test-ambassador         LoadBalancer   10.97.146.231    172.17.255.1   80:32764/TCP,443:30260/TCP   89s
     ```
@@ -124,8 +128,9 @@ This is just a quick way to setup kind and a local repo
     ``` 
 
 ## Stop
-1. `./kind-local-setup.sh stop`
+1. Run the following to stop kind and the local registry.
     ```bash
+    $ bin/kind-local-setup.sh stop
     Deleting cluster "kind" ...
     kind-registry
     ```
@@ -166,10 +171,9 @@ This is just a quick way to setup kind and a local repo
 * [Kind Local-registry](https://kind.sigs.k8s.io/docs/user/local-registry/)
 * [metallb](https://mauilion.dev/posts/kind-metallb/)
 
-
 # Dependency
 
 1. linux vm
 1. docker installed, as well as the ability to pull images from the internet
 1. [kind](https://kind.sigs.k8s.io/)
-1. k8s tools (kubectl, helm)
+1. k8s tools (kubectl, helm 3 or greater)
