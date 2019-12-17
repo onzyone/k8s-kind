@@ -14,6 +14,7 @@ This is just a quick way to setup kind and a local repo
    * [Table of contents](#table-of-contents)
    * [Usage](#usage)
       * [Start](#Start)
+      * [Get Images](#Get-images)
       * [Deploy with Helm](#Deploy-with-Helm)
       * [Stop](#Stop)
    * [Troubleshooting](#Troubleshooting)
@@ -42,13 +43,7 @@ This is just a quick way to setup kind and a local repo
 
     Have a question, bug, or feature request? Let us know! https://kind.sigs.k8s.io/#community 🙂
     ```
-1. Quick test (if this pod doesn't deploy, please have a look at the troubleshooting section)
-    ```bash
-    $ kubectl create deployment hello-server --image=registry:5000/hello-app:1.0
-    $ kubectl get po -w
-    NAME                            READY   STATUS    RESTARTS   AGE
-    hello-server-7f9c5b8577-2n7x2   1/1     Running   0          10s
-    ```
+
 ## Get images
 1. ensure that your images are in the local reg:
     ```bash
@@ -138,22 +133,22 @@ This is just a quick way to setup kind and a local repo
 # Troubleshooting 
 
 1. Note: you may update your local hosts file as well, for example by adding 127.0.0.1 registry in your laptop's /etc/hosts, so you can reference it in a consistent way by simply using registry:5000
-1. check what images are in the local repo
+1. check what images are in the local repo, if you do not see a list of images please run the commands in this section: [Get Images](#Get-images)
     ```bash
-    ➜  bin curl localhost:5000/v2/_catalog -s | jq
+    $ curl localhost:5000/v2/_catalog -s | jq
     {
     "repositories": [
         "datawire/ambassador",
-        "hello-app",
-        "kuar-demo/kuard-amd64",
-        "projectcontour/contour"
+        "hello-app"
     ]
     }
     ```
-1. unknown hook
-    The chart has not been updated to support helm3 
-    ``` bash
-    manifest_sorter.go:175: info: skipping unknown hook: "crd-install"
+1. Quick test (if this pod doesn't deploy, please have a look at the troubleshooting section)
+    ```bash
+    $ kubectl create deployment hello-server --image=registry:5000/hello-app:1.0
+    $ kubectl get po -w
+    NAME                            READY   STATUS    RESTARTS   AGE
+    hello-server-7f9c5b8577-2n7x2   1/1     Running   0          10s
     ```
 1. ingress test
     ``` bash
@@ -163,6 +158,13 @@ This is just a quick way to setup kind and a local repo
     NAME                         TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)                      AGE
     echo                         LoadBalancer   10.107.67.130    172.17.255.2   8080:32105/TCP               17m
     $ curl 172.17.255.2:8080
+    ```
+1. unknown hook
+    The chart has not been updated to support helm 3 yet 
+    ``` bash
+    ...
+    manifest_sorter.go:175: info: skipping unknown hook: "crd-install"
+    ...
     ```
 
 # Reference Documentation:
