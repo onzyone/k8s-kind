@@ -3,8 +3,8 @@
 This is just a quick way to setup kind and a local repo
 
 ```bash
-    ➜  bin ./kind-local-setup.sh
-    usage: ./kind-local-setup.sh start|stop|getimages
+    $ bin/kind-local-setup.sh
+    usage: kind-local-setup.sh start|stop|getimages
 ```
 
 # Table of contents
