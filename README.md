@@ -166,6 +166,10 @@ This is just a quick way to setup kind and a local repo
     manifest_sorter.go:175: info: skipping unknown hook: "crd-install"
     ...
     ```
+1. Mac OS:
+    * https://www.thehumblelab.com/kind-and-metallb-on-mac/
+    * *note* if brew install of tuntap is not working you may have to update your settings:
+        * https://github.com/Homebrew/homebrew-cask/issues/61236
 
 # Reference Documentation:
 
