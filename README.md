@@ -24,6 +24,13 @@ This is just a quick way to setup kind and a local repo
 =================
 
 # Usage
+===
+MAC OS only
+1. Mac OS:
+    * https://www.thehumblelab.com/kind-and-metallb-on-mac/
+    * *note* if brew install of tuntap is not working you may have to update your settings:
+        * https://github.com/Homebrew/homebrew-cask/issues/61236
+===
 ## Start
 1. In the bin dir of this repo you will find the start / stop script
     ```bash
@@ -166,11 +173,6 @@ This is just a quick way to setup kind and a local repo
     manifest_sorter.go:175: info: skipping unknown hook: "crd-install"
     ...
     ```
-1. Mac OS:
-    * https://www.thehumblelab.com/kind-and-metallb-on-mac/
-    * *note* if brew install of tuntap is not working you may have to update your settings:
-        * https://github.com/Homebrew/homebrew-cask/issues/61236
-
 # Reference Documentation:
 
 * [Helm Quickstart](https://helm.sh/docs/intro/quickstart/)
