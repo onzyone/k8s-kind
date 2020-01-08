@@ -33,21 +33,23 @@ containerdConfigPatches:
 nodes:
 - role: control-plane
 - role: worker
-  kubeadmConfigPatches:
-  - |
-    apiVersion: kubeadm.k8s.io/v1beta2
-    kind: InitConfiguration
-    nodeRegistration:
-      kubeletExtraArgs:
-        node-labels: "ingress-ready=true"
-        authorization-mode: "AlwaysAllow"
-  extraPortMappings:
-  - containerPort: 80
-    hostPort: 80
-    listenAddress: "0.0.0.0"
-  - containerPort: 443
-    hostPort: 443
-    listenAddress: "0.0.0.0"
+- role: worker
+- role: worker
+#  kubeadmConfigPatches:
+#  - |
+#    apiVersion: kubeadm.k8s.io/v1beta2
+#    kind: InitConfiguration
+#    nodeRegistration:
+#      kubeletExtraArgs:
+#        node-labels: "ingress-ready=true"
+#        authorization-mode: "AlwaysAllow"
+#  extraPortMappings:
+#  - containerPort: 80
+#    hostPort: 80
+#    listenAddress: "0.0.0.0"
+#  - containerPort: 443
+#    hostPort: 443
+#    listenAddress: "0.0.0.0"
 EOF
 
     # add the registry to /etc/hosts on each node
