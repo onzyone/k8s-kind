@@ -7,6 +7,10 @@ $ bin/kind-local-setup.sh
 usage: kind-local-setup.sh start|stop|getimages
 ```
 
+### Confirmed working with:
+* kind: `v0.8.1`
+* tilt: `v0.13.4`
+
 # Table of contents
 <!--ts-->
   * [Overview](#Overview)
@@ -105,6 +109,7 @@ This has been moved into the tiltfie: [k8s-tilt](https://github.com/onzyone/k8s-
 
 * [Helm Quickstart](https://helm.sh/docs/intro/quickstart/)
 * [Kind Local-registry](https://kind.sigs.k8s.io/docs/user/local-registry/)
+* [Kind With Registry](https://github.com/windmilleng/kind-local/blob/master/kind-with-registry.sh)
 * [metallb](https://mauilion.dev/posts/kind-metallb/)
 
 # Dependency

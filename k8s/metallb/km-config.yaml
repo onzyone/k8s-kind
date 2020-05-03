@@ -1,8 +1,9 @@
+# if this is not working please look at the troubleshooting section in k8s-kind (https://github.com/onzyone/k8s-kind)
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: metallb-system
   name: metallb-config
 data:
   config: |

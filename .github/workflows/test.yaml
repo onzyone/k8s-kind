@@ -1,0 +1,15 @@
+name: "Test Local Repo script"
+on: [push, pull_request]
+
+jobs:
+  test-local-repo-kind:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Install Kind
+      run: ./bin/kind-local-setup.sh install
+    - name: Start Kind
+      run: ./bin/kind-local-setup.sh start
+    - name: Run test
+      run: ./k8s/busybox/test.sh
