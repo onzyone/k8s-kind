@@ -1,8 +1,8 @@
-name: "test local repo script"
+name: "Test Local Repo script"
 on: [push, pull_request]
 
 jobs:
-  lint-tests:
+  test-local-repo-kind:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
