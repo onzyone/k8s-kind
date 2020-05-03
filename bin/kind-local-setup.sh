@@ -25,15 +25,11 @@ startme(){
 
   # check if there is already a container for reg
   echo "starting local git repo"
+  registry_container_id="$(docker container ls -a | grep ${reg_name} | awk '{ print $1}')" 
   # create registry container unless it already exists
   if [ "$(docker inspect -f '{{.State.Running}}' "${reg_name}")" != 'true' ]; then
-    registry_container_id="$(docker container ls -a | grep ${reg_name} | awk '{ print $1}')" 
     if [  -z ${registry_container_id}  ]; then
-      docker run \
-        -d -p --restart=always \
-        "${reg_port}:5000" \
-        --name "${reg_name}" \
-        registry:2
+      docker run -d --restart=always -p "${reg_port}:5000" --name "${reg_name}" registry:2
     else
       docker container start ${registry_container_id}
     fi
