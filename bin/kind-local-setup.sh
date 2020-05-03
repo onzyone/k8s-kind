@@ -15,6 +15,7 @@ startme(){
   kind_network='kind'
   reg_port='5000'
 
+  echo ${kind_version}
   # get kind version and setup kind network
   case "${kind_version}" in
     "kind v0.7."* | "kind v0.6."* | "kind v0.5."*)
@@ -24,9 +25,9 @@ startme(){
 
   # check if there is already a container for reg
   echo "starting local git repo"
-  registry_container_id="$(docker container ls -a | grep kind-registry | awk '{ print $1}')" 
   # create registry container unless it already exists
   if [ "$(docker inspect -f '{{.State.Running}}' "${reg_name}")" != 'true' ]; then
+    registry_container_id="$(docker container ls -a | grep ${reg_name} | awk '{ print $1}')" 
     if [  -z ${registry_container_id}  ]; then
       docker run \
         -d -p --restart=always \
