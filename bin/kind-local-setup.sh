@@ -25,11 +25,12 @@ startme(){
 
   # check if there is already a container for reg
   echo "starting local git repo"
-  registry_container_id="$(docker container ls -a | grep ${reg_name} | awk '{ print $1}')" 
   # create registry container unless it already exists
+  # https://anandtripathi5.medium.com/port-5000-already-in-use-macos-monterey-issue-d86b02edd36c
   if [ "$(docker inspect -f '{{.State.Running}}' "${reg_name}")" != 'true' ]; then
+    registry_container_id="$(docker container ls -a | grep ${reg_name} | awk '{ print $1}')"
     if [  -z ${registry_container_id}  ]; then
-      docker run -d --restart=always -p "${reg_port}:5000" --name "${reg_name}" registry:2
+      docker run -d --restart=always -p "127.0.0.1:${reg_port}:5000" --name "${reg_name}" registry:2
     else
       docker container start ${registry_container_id}
     fi
@@ -45,7 +46,7 @@ startme(){
 cat <<EOF | kind create cluster --name "${KIND_CLUSTER_NAME}" --config=-
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
-containerdConfigPatches: 
+containerdConfigPatches:
 - |-
   [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:${reg_port}"]
     endpoint = ["http://${reg_host}:${reg_port}"]
@@ -70,7 +71,7 @@ EOF
         needs_connect="false"
       fi
     done
-    if [ "${needs_connect}" = "true" ]; then               
+    if [ "${needs_connect}" = "true" ]; then
       docker network connect "${kind_network}" "${reg_name}" || true
     fi
   fi
@@ -87,7 +88,7 @@ installme(){
   chmod +x ./kind
 }
 
-case "$1" in 
+case "$1" in
   start)      startme ;;
   stop)       stopme ;;
   install)    installme ;;
